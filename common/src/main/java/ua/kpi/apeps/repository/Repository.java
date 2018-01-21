@@ -19,9 +19,8 @@ public interface Repository<E extends Serializable, ID extends Serializable> {
      * Get single item by id
      * @param id id
      * @return entity
-     * @throws IOException if no access to the data source
      */
-    default E getById(ID id) throws IOException {
+    default E getById(ID id) {
         return getByIds(singletonList(id))
                 .iterator()
                 .next();
@@ -30,26 +29,23 @@ public interface Repository<E extends Serializable, ID extends Serializable> {
     /**
      * Get all items
      * @return collection of all stored items
-     * @throws IOException if no access to the data source
      */
-    Collection<E> getAll() throws IOException;
+    Iterable<E> getAll();
 
     /**
      * Get all items by id
      * @param ids ids of the item to fetch
      * @return collection of item
-     * @throws IOException if no access to the data source
      */
-    Collection<E> getByIds(Collection<ID> ids) throws IOException;
+    Collection<E> getByIds(Collection<ID> ids);
 
     /**
      * Create entities in some repository
      *
      * @param entities entities
      * @return entities
-     * @throws IOException if no entity present
      */
-    Collection<ID> create(Collection<E> entities) throws IOException;
+    Collection<ID> create(Collection<E> entities);
 
     /**
      * Deletes entities by ids
@@ -57,5 +53,5 @@ public interface Repository<E extends Serializable, ID extends Serializable> {
      * @param ids ids of entities to delete
      * @return number of deleted entities
      */
-    int delete(Collection<ID> ids) throws IOException;
+    int delete(Collection<ID> ids);
 }

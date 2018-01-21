@@ -1,6 +1,7 @@
 package ua.kpi.apeps.repository.rmi;
 
-import ua.kpi.apeps.repository.EmployeeRepository;
+import ua.kpi.apeps.model.Employee;
+import ua.kpi.apeps.repository.Repository;
 
 import static java.lang.String.format;
 
@@ -10,7 +11,7 @@ public final class EmployeeRepositoryFactory {
         STUB, PRODUCTION;
     }
 
-    public static EmployeeRepository createRepository(Modes mode) {
+    public static Repository<Employee, Integer> createRepository(Modes mode) {
         switch (mode) {
             case STUB:
                 return new EmployeeRepositoryStub();

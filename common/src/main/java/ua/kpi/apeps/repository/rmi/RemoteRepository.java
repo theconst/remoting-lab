@@ -1,5 +1,6 @@
 package ua.kpi.apeps.repository.rmi;
 
+import lombok.SneakyThrows;
 import ua.kpi.apeps.repository.Repository;
 
 import java.io.Serializable;
@@ -15,19 +16,15 @@ import static java.util.Arrays.asList;
  * @param <E> type of an entity
  * @param <ID> type of id of the entity
  */
-public interface RemoteRepository<E extends Serializable, ID extends Serializable>
-        extends Remote, Repository<E, ID> {
+public interface RemoteRepository<E extends Serializable, ID extends Serializable> extends Remote {
 
-    @Override
+    E getById(ID id) throws RemoteException;
+
     Collection<E> getByIds(Collection<ID> ids) throws RemoteException;
 
-    @Override
-    Collection<E> getAll() throws RemoteException;
+    Iterable<E> getAll() throws RemoteException;
 
-    @Override
     Collection<ID> create(Collection<E> entities) throws RemoteException;
 
-    @Override
     int delete(Collection<ID> ids) throws RemoteException;
-
 }

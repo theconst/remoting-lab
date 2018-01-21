@@ -1,25 +1,23 @@
 package ua.kpi.apeps.repository.rmi;
 
 import ua.kpi.apeps.model.Employee;
-import ua.kpi.apeps.repository.EmployeeRepository;
+import ua.kpi.apeps.repository.Repository;
 
-import java.io.IOException;
 import java.util.Collection;
+import java.util.concurrent.atomic.AtomicLong;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 
-public class EmployeeRepositoryStub implements EmployeeRepository {
-
-    public static final String NAME = "";
+public class EmployeeRepositoryStub implements Repository<Employee, Integer> {
 
     @Override
-    public Collection<Employee> getAll() throws IOException {
+    public Iterable<Employee> getAll() {
         return getByIds(asList(1, 2, 3));
     }
 
     @Override
-    public Collection<Employee> getByIds(Collection<Integer> integers) throws IOException {
+    public Collection<Employee> getByIds(Collection<Integer> integers) {
         return integers.stream()
                 .map(id -> Employee.builder()
                         .name("name_" + id)
@@ -30,7 +28,7 @@ public class EmployeeRepositoryStub implements EmployeeRepository {
     }
 
     @Override
-    public Collection<Integer> create(Collection<Employee> entities) throws IOException {
+    public Collection<Integer> create(Collection<Employee> entities) {
         System.out.println("Creating...");
         return entities.stream()
                 .map(Employee::getId)
@@ -38,7 +36,7 @@ public class EmployeeRepositoryStub implements EmployeeRepository {
     }
 
     @Override
-    public int delete(Collection<Integer> integers) throws IOException {
+    public int delete(Collection<Integer> integers) {
         System.out.println("Deleting...");
         return 0;
     }

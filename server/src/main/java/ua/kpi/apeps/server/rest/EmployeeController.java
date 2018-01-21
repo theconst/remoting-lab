@@ -1,42 +1,31 @@
 package ua.kpi.apeps.server.rest;
 
 import lombok.AllArgsConstructor;
+import lombok.SneakyThrows;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ua.kpi.apeps.model.Employee;
-import ua.kpi.apeps.repository.EmployeeRepository;
+import ua.kpi.apeps.repository.Repository;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.util.Collection;
-
-@Path("/employees")
-@Produces(MediaType.TEXT_PLAIN)
-@AllArgsConstructor
+@RestController
+@RequestMapping("employees/")
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class EmployeeController {
 
-    EmployeeRepository repository;
+    private Repository<Employee, Integer> repository;
 
-    @GET
-    public String getAllEmployees() {
-        try {
-            return repository.getAll().toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+    @GetMapping
+    @SneakyThrows
+    public Iterable<Employee> getAllEmployees() {
+        return repository.getAll();
     }
 
-    @GET
-    @Path("{id}")
-    public String getById(@PathParam("id") Integer id) {
-        try {
-            return repository.getById(id).toString();
-        } catch (IOException e) {
-            e.printStackTrace();
-            throw new RuntimeException(e);
-        }
+    @GetMapping("{id}")
+    @SneakyThrows
+    public Employee getById(@PathVariable("id") Integer id) {
+        return repository.getById(id);
     }
 }

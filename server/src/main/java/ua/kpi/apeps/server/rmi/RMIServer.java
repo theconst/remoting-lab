@@ -1,7 +1,7 @@
 package ua.kpi.apeps.server.rmi;
 
 import ua.kpi.apeps.model.EmployeeShiftRecord;
-import ua.kpi.apeps.repository.rmi.EmployeeShiftJournalRepositoryStub;
+import ua.kpi.apeps.repository.rmi.EmployeeShiftRecordRepositoryStub;
 import ua.kpi.apeps.repository.rmi.RemoteRepository;
 import ua.kpi.apeps.repository.rmi.RemoteRepositoryAdapter;
 
@@ -16,7 +16,7 @@ import static ua.kpi.apeps.repository.rmi.ServiceRegistry.EMPLOYEE_SHIFT_RECORD_
 public class RMIServer {
 
     //hack to prevent gc
-    private static EmployeeShiftJournalRepositoryStub REPOSITORY;
+    private static EmployeeShiftRecordRepositoryStub REPOSITORY;
     private static RemoteRepository<EmployeeShiftRecord, Integer> REMOTE_REPO;
     private static Remote REMOTE;
 
@@ -27,7 +27,7 @@ public class RMIServer {
         try {
             Registry registry = LocateRegistry.createRegistry(1099);
 
-            REPOSITORY = new EmployeeShiftJournalRepositoryStub();
+            REPOSITORY = new EmployeeShiftRecordRepositoryStub();
             REMOTE_REPO = RemoteRepositoryAdapter.of(REPOSITORY);
             REMOTE = exportObject(REMOTE_REPO, 1099);
 

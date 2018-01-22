@@ -12,6 +12,8 @@
 
     <name>Server of the application that provides data</name>
 
+    <description>Server contains tho hooks, namely the remoting hook and the REST api</description>
+
     <artifactId>server</artifactId>
     <packaging>jar</packaging>
 

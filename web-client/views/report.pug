@@ -1,0 +1,14 @@
+html
+  head
+    title!= title
+  body
+    table
+      caption
+        th!= title
+      tr
+        each item in items
+          td= item.id
+          td= item.comment
+          td= item.workedFrom
+          td= item.workedTo
+          td= item.wasSigned ? '+' : '-'

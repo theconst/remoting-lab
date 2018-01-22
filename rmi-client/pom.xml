@@ -12,7 +12,7 @@
 
     <name>Client application that consumes data</name>
 
-    <artifactId>client</artifactId>
+    <artifactId>rmi-client</artifactId>
     <packaging>jar</packaging>
 
     <dependencies>

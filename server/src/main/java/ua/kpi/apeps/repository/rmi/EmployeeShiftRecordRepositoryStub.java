@@ -14,7 +14,7 @@ import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
 @Slf4j
-public class EmployeeShiftJournalRepositoryStub implements Repository<EmployeeShiftRecord, Integer> {
+public class EmployeeShiftRecordRepositoryStub implements Repository<EmployeeShiftRecord, Integer> {
 
     private final Map<Integer, EmployeeShiftRecord> recordsById = new HashMap<>();
 

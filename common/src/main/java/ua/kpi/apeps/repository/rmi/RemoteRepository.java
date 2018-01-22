@@ -1,14 +1,9 @@
 package ua.kpi.apeps.repository.rmi;
 
-import lombok.SneakyThrows;
-import ua.kpi.apeps.repository.Repository;
-
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 import java.util.Collection;
-
-import static java.util.Arrays.asList;
 
 /**
  * Defines repository that can be accessed remotely

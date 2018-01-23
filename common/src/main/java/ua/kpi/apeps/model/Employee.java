@@ -21,8 +21,4 @@ public class Employee implements Serializable {
     private String occupation;
 
     private String post;
-
-    private Integer contractId;
-
-    private EmployeeData data;
 }

@@ -16,7 +16,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Spliterators.spliteratorUnknownSize;
-import static java.util.stream.Collectors.toList;
 import static java.util.stream.StreamSupport.stream;
 
 public class EmployeeShiftRecordCSVRepository
@@ -30,6 +29,10 @@ public class EmployeeShiftRecordCSVRepository
 
     public EmployeeShiftRecordCSVRepository(String pathToCsv) {
         this.pathToCsv = pathToCsv;
+    }
+
+    private static Stream<CSVRecord> streamOfRecords(Iterable<CSVRecord> records) {
+        return stream(spliteratorUnknownSize(records.iterator(), Spliterator.ORDERED | Spliterator.NONNULL), false);
     }
 
     @Override
@@ -47,32 +50,29 @@ public class EmployeeShiftRecordCSVRepository
     }
 
     @Override
-    public Collection<EmployeeShiftRecord> getByIds(Collection<Integer> ids) {
+    public EmployeeShiftRecord getById(Integer id) {
         try (
                 Reader reader = Files.newBufferedReader(Paths.get(pathToCsv));
                 CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader());
         ) {
             return streamOfRecords(parser.getRecords())
                     .map(CSVRecordToEmployeeShiftRecordConverter.of(parser.getHeaderMap()))
-                    .filter(employeeShiftRecord -> ids.contains(employeeShiftRecord.getId()))
-                    .collect(toList());
+                    .filter(employeeShiftRecord -> id.equals(employeeShiftRecord.getId()))
+                    .findFirst()
+                    .orElse(null);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     @Override
-    public Collection<Integer> create(Collection<EmployeeShiftRecord> entities) {
+    public Integer create(EmployeeShiftRecord ignored) {
         throw new UnsupportedOperationException("This repository is scan-only");
     }
 
     @Override
-    public int delete(Collection<Integer> integers) {
+    public int delete(Integer ignored) {
         throw new UnsupportedOperationException("This repository is scan-only");
-    }
-
-    private static Stream<CSVRecord> streamOfRecords(Iterable<CSVRecord> records) {
-        return stream(spliteratorUnknownSize(records.iterator(), Spliterator.ORDERED | Spliterator.NONNULL), false);
     }
 
     @Override

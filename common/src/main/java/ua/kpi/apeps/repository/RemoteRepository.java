@@ -3,7 +3,6 @@ package ua.kpi.apeps.repository;
 import java.io.Serializable;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-import java.util.Collection;
 
 /**
  * Defines repository that can be accessed remotely
@@ -15,11 +14,9 @@ public interface RemoteRepository<E extends Serializable, ID extends Serializabl
 
     E getById(ID id) throws RemoteException;
 
-    Collection<E> getByIds(Collection<ID> ids) throws RemoteException;
-
     Iterable<E> getAll() throws RemoteException;
 
-    Collection<ID> create(Collection<E> entities) throws RemoteException;
+    ID create(E entity) throws RemoteException;
 
-    int delete(Collection<ID> ids) throws RemoteException;
+    int delete(ID ids) throws RemoteException;
 }

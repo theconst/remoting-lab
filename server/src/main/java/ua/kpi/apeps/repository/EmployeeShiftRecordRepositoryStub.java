@@ -1,6 +1,7 @@
 package ua.kpi.apeps.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import ua.kpi.apeps.model.EmployeeShiftRecord;
@@ -12,15 +13,21 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static java.lang.String.format;
-import static java.util.stream.Collectors.toList;
 
 @Slf4j
 @Component
+@Qualifier("employee-shift-record-repository")
 @ConditionalOnProperty(value = "stub-mode", havingValue = "true")
-public class EmployeeShiftRecordRepositoryStub implements EmployeeShiftRecordRepository {
+public class EmployeeShiftRecordRepositoryStub
+        implements Repository<EmployeeShiftRecord, Integer> {
 
     private static final AtomicInteger counter = new AtomicInteger();
     private final Map<Integer, EmployeeShiftRecord> recordsById = new HashMap<>();
+
+
+    public EmployeeShiftRecord getById(Integer id) {
+        return recordsById.get(id);
+    }
 
     @Override
     public Collection<EmployeeShiftRecord> getAll() {
@@ -28,40 +35,22 @@ public class EmployeeShiftRecordRepositoryStub implements EmployeeShiftRecordRep
     }
 
     @Override
-    public Collection<EmployeeShiftRecord> getByIds(Collection<Integer> ids) {
-        return ids.stream()
-                .map(recordsById::get)
-                .collect(toList());
-    }
-
-    @Override
-    public Collection<Integer> create(Collection<EmployeeShiftRecord> entities) {
+    public Integer create(EmployeeShiftRecord entity) {
+        Integer next = counter.incrementAndGet();
         try {
-            return entities.stream()
-                    .map(e -> {
-                        int next = counter.incrementAndGet();
-                        recordsById.put(next, e);
-                        return next;
-                    })
-                    .collect(toList());
+            recordsById.put(next, entity);
         } finally {
             log.debug(format("Dump: %s", recordsById.entrySet()));
         }
+        return next;
     }
 
     @Override
-    public int delete(Collection<Integer> ids) {
-        return (int) ids.stream()
+    public int delete(Integer id) {
+        return (int) recordsById.keySet().stream()
                 .map(recordsById::remove)
                 .filter(Objects::nonNull)
                 .count();
     }
 
-    @Override
-    public Iterable<EmployeeShiftRecord> getAllEmployeeShiftRecords(Integer empId, Integer journalId) {
-        return recordsById.values().stream()
-                .filter(r -> empId.equals(r.getEmployeeId()))
-                .filter(r -> journalId.equals(r.getJournalId()))
-                .collect(toList());
-    }
 }

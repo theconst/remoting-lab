@@ -2,7 +2,6 @@ package ua.kpi.apeps.repository;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
-import java.util.Collection;
 
 public class RemoteRepositoryAdapter<E extends Serializable, ID extends Serializable>
         implements RemoteRepository<E, ID> {
@@ -24,22 +23,17 @@ public class RemoteRepositoryAdapter<E extends Serializable, ID extends Serializ
     }
 
     @Override
-    public Collection<E> getByIds(Collection<ID> ids) throws RemoteException {
-        return adapted.getByIds(ids);
-    }
-
-    @Override
     public Iterable<E> getAll() throws RemoteException {
         return adapted.getAll();
     }
 
     @Override
-    public Collection<ID> create(Collection<E> entities) throws RemoteException {
-        return adapted.create(entities);
+    public ID create(E entity) throws RemoteException {
+        return adapted.create(entity);
     }
 
     @Override
-    public int delete(Collection<ID> ids) throws RemoteException {
-        return adapted.delete(ids);
+    public int delete(ID id) throws RemoteException {
+        return adapted.delete(id);
     }
 }

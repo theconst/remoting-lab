@@ -7,6 +7,7 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import ua.kpi.apeps.model.EmployeeShiftRecord;
 import ua.kpi.apeps.repository.RemoteRepository;
+import ua.kpi.apeps.repository.RemoteTransactionTemplateAdapter;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -15,6 +16,7 @@ import java.util.Objects;
 
 import static java.rmi.registry.LocateRegistry.getRegistry;
 import static ua.kpi.apeps.repository.ServiceRegistry.EMPLOYEE_SHIFT_RECORD_REPOSITORY;
+import static ua.kpi.apeps.repository.ServiceRegistry.TRANSACTION;
 
 @Slf4j
 public class Client {
@@ -48,12 +50,24 @@ public class Client {
 
         //execute update of the remote repository
         log.info("Started importing of journal {}", journal);
-        UpdateRepositoryTask.of(journal, getRepository(getRegistry(host, port))).call();
+        Registry registry = getRegistry(host, port);
+        UpdateRepositoryTask.of(
+                journal,
+                getRepository(registry),
+                getTransactionTemplate(registry)
+        ).call();
         log.info("Finished importing of journal");
     }
 
     @SuppressWarnings("unchecked") //getting object known by a contract
-    private static RemoteRepository<EmployeeShiftRecord, Integer> getRepository(Registry registry) throws RemoteException, NotBoundException {
+    private static RemoteTransactionTemplateAdapter<Void> getTransactionTemplate(Registry registry)
+            throws RemoteException, NotBoundException {
+        return (RemoteTransactionTemplateAdapter<Void>) registry.lookup(TRANSACTION);
+    }
+
+    @SuppressWarnings("unchecked") //getting object known by a contract
+    private static RemoteRepository<EmployeeShiftRecord, Integer>
+    getRepository(Registry registry) throws RemoteException, NotBoundException {
         return (RemoteRepository<EmployeeShiftRecord, Integer>) registry.lookup(EMPLOYEE_SHIFT_RECORD_REPOSITORY);
     }
 

@@ -31,10 +31,14 @@ public class CSVRecordToEmployeeShiftRecordConverter implements Function<CSVReco
         FILLERS.put("comment", (value, employeeShiftRecord) ->
                 employeeShiftRecord.setComment(value));
         FILLERS.put("controlled", (value, employeeShiftRecord) ->
-                employeeShiftRecord.setWasSigned("+".equals(value)));
+                employeeShiftRecord.setWasControlled("+".equals(value)));
     }
 
     private final Map<String, Integer> headerMap;
+
+    private static Supplier<IllegalStateException> illegalField(String fieldName) {
+        return () -> new IllegalStateException(format("No field '%s' exists", fieldName));
+    }
 
     public EmployeeShiftRecord apply(CSVRecord record) {
         EmployeeShiftRecord result = new EmployeeShiftRecord();
@@ -46,9 +50,5 @@ public class CSVRecordToEmployeeShiftRecordConverter implements Function<CSVReco
                     .accept(fieldValue, result);
         }
         return result;
-    }
-
-    private static Supplier<IllegalStateException> illegalField(String fieldName) {
-        return () -> new IllegalStateException(format("No field '%s' exists", fieldName));
     }
 }

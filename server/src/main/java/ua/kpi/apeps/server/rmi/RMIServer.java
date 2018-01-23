@@ -1,9 +1,12 @@
 package ua.kpi.apeps.server.rmi;
 
 import ua.kpi.apeps.model.EmployeeShiftRecord;
-import ua.kpi.apeps.repository.EmployeeShiftRecordRepository;
 import ua.kpi.apeps.repository.RemoteRepository;
 import ua.kpi.apeps.repository.RemoteRepositoryAdapter;
+import ua.kpi.apeps.repository.RemoteTransactionTemplate;
+import ua.kpi.apeps.repository.RemoteTransactionTemplateAdapter;
+import ua.kpi.apeps.repository.Repository;
+import ua.kpi.apeps.repository.TransactionTemplate;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -19,20 +22,28 @@ import static ua.kpi.apeps.repository.ServiceRegistry.EMPLOYEE_SHIFT_RECORD_REPO
 public class RMIServer {
 
     //prevent gc
-    private static RemoteRepository<EmployeeShiftRecord, Integer> REMOTE_REPO;
-    private static Remote REMOTE;
+    private static RemoteRepository<EmployeeShiftRecord, Integer> REPO;
+    private static RemoteTransactionTemplate<Void> TEMPLATE;
+    private static Remote REMOTE_REPOSITORY;
+    private static Remote REMOTE_TEMPLATE;
 
-    public static void run(EmployeeShiftRecordRepository repository, int port) {
+    public static void run(
+            Repository<EmployeeShiftRecord, Integer> repository,
+            TransactionTemplate<Void> noResultTemplate,
+            int port) {
         if (System.getSecurityManager() == null) {
             System.setSecurityManager(new SecurityManager());
         }
         try {
             Registry registry = LocateRegistry.createRegistry(port);
 
-            REMOTE_REPO = RemoteRepositoryAdapter.of(repository);
-            REMOTE = exportObject(REMOTE_REPO, port);
+            REPO = RemoteRepositoryAdapter.of(repository);
+            TEMPLATE = RemoteTransactionTemplateAdapter.of(noResultTemplate);
+            REMOTE_REPOSITORY = exportObject(REPO, port);
+            REMOTE_TEMPLATE = exportObject(TEMPLATE, port);
 
-            registry.rebind(EMPLOYEE_SHIFT_RECORD_REPOSITORY, REMOTE);
+
+            registry.rebind(EMPLOYEE_SHIFT_RECORD_REPOSITORY, REMOTE_REPOSITORY);
         } catch (RemoteException e) {
             //throw it further
             throw new IllegalStateException(e);

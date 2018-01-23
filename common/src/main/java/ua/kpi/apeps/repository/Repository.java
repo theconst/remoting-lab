@@ -1,11 +1,6 @@
 package ua.kpi.apeps.repository;
 
-import java.io.IOException;
 import java.io.Serializable;
-import java.util.Collection;
-
-import static java.util.Arrays.asList;
-import static java.util.Collections.singletonList;
 
 /**
  * Generic repository of items that handle the underlying store
@@ -20,11 +15,7 @@ public interface Repository<E extends Serializable, ID extends Serializable> {
      * @param id id
      * @return entity
      */
-    default E getById(ID id) {
-        return getByIds(singletonList(id))
-                .iterator()
-                .next();
-    }
+    E getById(ID id);
 
     /**
      * Get all items
@@ -33,19 +24,12 @@ public interface Repository<E extends Serializable, ID extends Serializable> {
     Iterable<E> getAll();
 
     /**
-     * Get all items by id
-     * @param ids ids of the item to fetch
-     * @return collection of item
-     */
-    Collection<E> getByIds(Collection<ID> ids);
-
-    /**
      * Create entities in some repository
      *
      * @param entities entities
      * @return entities
      */
-    Collection<ID> create(Collection<E> entities);
+    ID create(E entities);
 
     /**
      * Deletes entities by ids
@@ -53,5 +37,5 @@ public interface Repository<E extends Serializable, ID extends Serializable> {
      * @param ids ids of entities to delete
      * @return number of deleted entities
      */
-    int delete(Collection<ID> ids);
+    int delete(ID ids);
 }

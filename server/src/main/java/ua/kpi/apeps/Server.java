@@ -3,8 +3,6 @@ package ua.kpi.apeps;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import ua.kpi.apeps.repository.EmployeeShiftRecordRepository;
-import ua.kpi.apeps.server.rmi.RMIServer;
 
 /**
  * Server that runs on both RMI and web endpoints
@@ -17,6 +15,9 @@ public class Server {
         int rmiPort = Integer.valueOf(context.getEnvironment().getProperty("rmi.port"));
 
         /* not using spring rmi to make the application explicit */
-        RMIServer.run(context.getBean(EmployeeShiftRecordRepository.class), rmiPort);
+//        RMIServer.run(
+//                context.getBean("employee-shift-record-repository",
+//                        context.getBean("")
+//                        rmiPort);
     }
 }

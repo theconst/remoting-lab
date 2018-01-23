@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title Сотрутдник
+    style
+      include common.css
+  body
+    table.info-table
+      caption Информация о сотрутднике
+        tr
+          td.field-name Имя
+          td= item.name
+        tr
+          td.field-name Фамилия
+          td= item.surname
+        tr
+          td.field-name Принят
+          td= formatDate(item.since)
+        tr
+          td.field-name Специальность
+          td= item.occupation
+        tr
+          td.field-name Должность
+          td= item.post
+

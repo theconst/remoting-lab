@@ -1,33 +1,40 @@
-.report-table {
+.info-table {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
 
-.report-table td, .report-table th {
+.info-table td, .info-table th {
     border: 1px solid #0000ff;
     padding: 8px;
 }
 
-.report-table caption {
+.info-table caption {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border: 1px solid #0000ff;
     padding: 20px;
+    font-weight: bold;
     font-size: 150%;
 }
 
-.report-table tr:nth-child(even) {
+.info-table tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-.report-table tr:hover {
+.info-table tr:hover {
     background-color: #0000fe;
 }
 
-.report-table th {
+.info-table th {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
     background-color: #0000fc;
     color: white;
+}
+
+.field-name {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-weight: bold;
 }

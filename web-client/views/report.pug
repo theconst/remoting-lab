@@ -1,11 +1,11 @@
 doctype html
 html
   head
-    title!= title
+    title Отчет
     style
-      include report.css
+      include common.css
   body
-    table.report-table
+    table.info-table
       caption Отчет по сменам
         tr
           th '#'
@@ -14,7 +14,7 @@ html
           th Конец
           th Принято
         each item, index in items
-          tr
+          tr(onclick="document.location = employee.html?#{item.employeeId}")
             td= index + 1
             td= item.comment
             td= formatDate(item.workedFrom)

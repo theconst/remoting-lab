@@ -1,15 +1,22 @@
+doctype html
 html
   head
     title!= title
+    style
+      include report.css
   body
-    table
-      caption
+    table.report-table
+      caption Отчет по сменам
         tr
-          th!= title
-        each item in items
+          th '#'
+          th Коментарий
+          th Начало
+          th Конец
+          th Принято
+        each item, index in items
           tr
-            td= item.id
+            td= index + 1
             td= item.comment
-            td= item.workedFrom
-            td= item.workedTo
+            td= formatDate(item.workedFrom)
+            td= formatDate(item.workedTo)
             td= item.wasSigned ? '+' : '-'

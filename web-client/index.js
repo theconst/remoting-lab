@@ -24,6 +24,9 @@ console.log(`Constructed server url : ${serverURL}`);
 
 app.set('view engine', 'pug');
 
+/**
+ * One shot fetch and render
+ */
 app.get('/report.html', (req, res) => {
     let shiftUrl = [serverURL, config.employeesEndpoint, config.shiftEndpoint].join('/');
     console.log(`Getting ${shiftUrl}`);
@@ -31,10 +34,18 @@ app.get('/report.html', (req, res) => {
        console.log(`received: ${JSON.stringify(items)}`);
        let data = {
           title : "Shift report",
-          items : items
+           items: items,
+           formatDate: formatDate
        };
        res.render('report', data);
     });
 });
 
 app.listen(config.port, () => console.log(`Listening on port ${config.port}`));
+
+
+function formatDate(date) {
+    return new Date(date).toISOString()
+        .replace(/T/, ' ')
+        .replace(/\..+/, '')
+}

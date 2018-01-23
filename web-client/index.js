@@ -1,5 +1,5 @@
 /**
- * Small reporting web application
+ * Small reporting web application that renders templates for employee and
  */
 const url = require('url');
 
@@ -24,20 +24,31 @@ console.log(`Constructed server url : ${serverURL}`);
 
 app.set('view engine', 'pug');
 
-/**
- * One shot fetch and render
- */
 app.get('/report.html', (req, res) => {
     let shiftUrl = [serverURL, config.employeesEndpoint, config.shiftEndpoint].join('/');
     console.log(`Getting ${shiftUrl}`);
-    let employeeShifts = client.get(shiftUrl, items => {
+    client.get(shiftUrl, items => {
        console.log(`received: ${JSON.stringify(items)}`);
-       let data = {
-          title : "Shift report",
-           items: items,
-           formatDate: formatDate
-       };
-       res.render('report', data);
+
+        res.render('report', {
+            title: "Shift report",
+            items: items,
+            formatDate: formatDate
+        });
+    });
+});
+
+app.get('/employee.html', (req, res) => {
+    console.log(req.params['id']);
+    let employeeUrl = [serverURL, config.employeesEndpoint, req.query.id].join('/');
+    console.log(`Getting ${employeeUrl}`);
+    client.get(employeeUrl, employee => {
+        console.log(`received ${JSON.stringify(employee)}`);
+
+        res.render('employee', {
+            item: employee,
+            formatDate: formatDate
+        });
     });
 });
 
@@ -45,7 +56,8 @@ app.listen(config.port, () => console.log(`Listening on port ${config.port}`));
 
 
 function formatDate(date) {
-    return new Date(date).toISOString()
-        .replace(/T/, ' ')
-        .replace(/\..+/, '')
+    return date && date !== null ?
+        new Date(date).toISOString()
+            .replace(/T/, ' ')
+            .replace(/\..+/, '') : '';
 }

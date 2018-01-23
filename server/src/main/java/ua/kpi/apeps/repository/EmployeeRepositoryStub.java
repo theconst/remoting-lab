@@ -1,14 +1,16 @@
-package ua.kpi.apeps.repository.rmi;
+package ua.kpi.apeps.repository;
 
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
 import ua.kpi.apeps.model.Employee;
-import ua.kpi.apeps.repository.Repository;
 
 import java.util.Collection;
-import java.util.concurrent.atomic.AtomicLong;
 
 import static java.util.Arrays.asList;
 import static java.util.stream.Collectors.toList;
 
+@Component
+@ConditionalOnProperty(value = "stub-mode", havingValue = "true")
 public class EmployeeRepositoryStub implements Repository<Employee, Integer> {
 
     @Override

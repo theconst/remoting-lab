@@ -1,8 +1,9 @@
-package ua.kpi.apeps.repository.rmi;
+package ua.kpi.apeps.repository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.stereotype.Component;
 import ua.kpi.apeps.model.EmployeeShiftRecord;
-import ua.kpi.apeps.repository.Repository;
 
 import java.util.Collection;
 import java.util.HashMap;
@@ -14,11 +15,12 @@ import static java.lang.String.format;
 import static java.util.stream.Collectors.toList;
 
 @Slf4j
-public class EmployeeShiftRecordRepositoryStub implements Repository<EmployeeShiftRecord, Integer> {
-
-    private final Map<Integer, EmployeeShiftRecord> recordsById = new HashMap<>();
+@Component
+@ConditionalOnProperty(value = "stub-mode", havingValue = "true")
+public class EmployeeShiftRecordRepositoryStub implements EmployeeShiftRecordRepository {
 
     private static final AtomicInteger counter = new AtomicInteger();
+    private final Map<Integer, EmployeeShiftRecord> recordsById = new HashMap<>();
 
     @Override
     public Collection<EmployeeShiftRecord> getAll() {
@@ -48,10 +50,18 @@ public class EmployeeShiftRecordRepositoryStub implements Repository<EmployeeShi
     }
 
     @Override
-    public int delete(Collection<Integer> integers) {
-        return (int) integers.stream()
+    public int delete(Collection<Integer> ids) {
+        return (int) ids.stream()
                 .map(recordsById::remove)
                 .filter(Objects::nonNull)
                 .count();
+    }
+
+    @Override
+    public Iterable<EmployeeShiftRecord> getAllEmployeeShiftRecords(Integer empId, Integer journalId) {
+        return recordsById.values().stream()
+                .filter(r -> empId.equals(r.getEmployeeId()))
+                .filter(r -> journalId.equals(r.getJournalId()))
+                .collect(toList());
     }
 }

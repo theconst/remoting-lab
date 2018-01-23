@@ -1,4 +1,4 @@
-package ua.kpi.apeps.repository.rmi;
+package ua.kpi.apeps.repository;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -8,5 +8,5 @@ public final class ServiceRegistry {
 
     public static final String EMPLOYEE_REPOSITORY = "EmployeeService";
 
-    public static final String EMPLOYEE_SHIFT_RECORD_REPOSITORY = "ShirtRecordRepository";
+    public static final String EMPLOYEE_SHIFT_RECORD_REPOSITORY = "ShiftRecordRepository";
 }

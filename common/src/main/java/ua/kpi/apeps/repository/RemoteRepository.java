@@ -1,4 +1,4 @@
-package ua.kpi.apeps.repository.rmi;
+package ua.kpi.apeps.repository;
 
 import java.io.Serializable;
 import java.rmi.Remote;

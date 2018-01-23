@@ -1,6 +1,4 @@
-package ua.kpi.apeps.repository.rmi;
-
-import ua.kpi.apeps.repository.Repository;
+package ua.kpi.apeps.repository;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;
@@ -13,6 +11,11 @@ public class RemoteRepositoryAdapter<E extends Serializable, ID extends Serializ
 
     private RemoteRepositoryAdapter(Repository<E, ID> adapted) throws RemoteException {
         this.adapted = adapted;
+    }
+
+    public static <E extends Serializable, ID extends Serializable>
+    RemoteRepository<E, ID> of(Repository<E, ID> repository) throws RemoteException {
+        return new RemoteRepositoryAdapter<>(repository);
     }
 
     @Override
@@ -38,10 +41,5 @@ public class RemoteRepositoryAdapter<E extends Serializable, ID extends Serializ
     @Override
     public int delete(Collection<ID> ids) throws RemoteException {
         return adapted.delete(ids);
-    }
-
-    public static <E extends Serializable, ID extends Serializable>
-        RemoteRepository<E, ID> of(Repository<E, ID> repository) throws RemoteException {
-        return new RemoteRepositoryAdapter<>(repository);
     }
 }

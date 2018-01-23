@@ -6,7 +6,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import ua.kpi.apeps.model.EmployeeShiftRecord;
-import ua.kpi.apeps.repository.rmi.RemoteRepository;
+import ua.kpi.apeps.repository.RemoteRepository;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -14,7 +14,7 @@ import java.rmi.registry.Registry;
 import java.util.Objects;
 
 import static java.rmi.registry.LocateRegistry.getRegistry;
-import static ua.kpi.apeps.repository.rmi.ServiceRegistry.EMPLOYEE_SHIFT_RECORD_REPOSITORY;
+import static ua.kpi.apeps.repository.ServiceRegistry.EMPLOYEE_SHIFT_RECORD_REPOSITORY;
 
 @Slf4j
 public class Client {

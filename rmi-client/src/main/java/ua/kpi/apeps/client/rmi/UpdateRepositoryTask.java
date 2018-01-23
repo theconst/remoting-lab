@@ -2,7 +2,7 @@ package ua.kpi.apeps.client.rmi;
 
 import lombok.AllArgsConstructor;
 import ua.kpi.apeps.model.EmployeeShiftRecord;
-import ua.kpi.apeps.repository.rmi.RemoteRepository;
+import ua.kpi.apeps.repository.RemoteRepository;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
@@ -19,6 +19,9 @@ public class UpdateRepositoryTask implements Callable<Void> {
 
     private final RemoteRepository<EmployeeShiftRecord, Integer> remoteRepository;
 
+    private static void setJournal(Collection<EmployeeShiftRecord> newRecords, Integer journalId) {
+        newRecords.forEach(record -> record.setJournalId(journalId));
+    }
 
     @Override
     public Void call() throws Exception {
@@ -29,9 +32,5 @@ public class UpdateRepositoryTask implements Callable<Void> {
             remoteRepository.create(newRecords);
         }
         return null;
-    }
-
-    private static void setJournal(Collection<EmployeeShiftRecord> newRecords, Integer journalId) {
-        newRecords.forEach(record -> record.setJournalId(journalId));
     }
 }

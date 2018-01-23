@@ -4,11 +4,12 @@ html
   body
     table
       caption
-        th!= title
-      tr
+        tr
+          th!= title
         each item in items
-          td= item.id
-          td= item.comment
-          td= item.workedFrom
-          td= item.workedTo
-          td= item.wasSigned ? '+' : '-'
+          tr
+            td= item.id
+            td= item.comment
+            td= item.workedFrom
+            td= item.workedTo
+            td= item.wasSigned ? '+' : '-'

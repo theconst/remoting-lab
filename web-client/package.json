@@ -1,0 +1,30 @@
+{
+  "name": "web-client",
+  "version": "1.0.0",
+  "description": "Consumer of the rest service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "pug": "latest",
+    "express": "latest",
+    "node-rest-client": "latest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/theconst/remoting-lab.git"
+  },
+  "keywords": [
+    "rest",
+    "client",
+    "lab"
+  ],
+  "author": "kko",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/theconst/remoting-lab/issues"
+  },
+  "homepage": "https://github.com/theconst/remoting-lab#readme"
+}

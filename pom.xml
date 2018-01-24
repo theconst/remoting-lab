@@ -14,9 +14,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
 
-        <hibernate-core.version>5.2.12.Final</hibernate-core.version>
         <lombok.version>1.16.16</lombok.version>
-        <hibernate-annotations.version>3.5.6-Final</hibernate-annotations.version>
         <spring-boot.version>1.5.9.RELEASE</spring-boot.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
         <commons-cli.version>1.4</commons-cli.version>
@@ -63,17 +61,6 @@
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>${hibernate-core.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.hibernate</groupId>
-                <artifactId>hibernate-annotations</artifactId>
-                <version>${hibernate-annotations.version}</version>
             </dependency>
 
             <dependency>

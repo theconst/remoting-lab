@@ -13,7 +13,9 @@ html
         tr
           td.field-name Фамилия
           td= item.surname
-        //tr td.field-name Принят td= formatDate(item.since)
+        tr
+          td.field-name Занят с
+          td= formatDate(item.since)
         tr
           td.field-name Специальность
           td= item.occupation

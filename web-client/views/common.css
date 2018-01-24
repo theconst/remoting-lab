@@ -38,3 +38,9 @@
     text-align: left;
     font-weight: bold;
 }
+
+.summary {
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+    text-align: center;
+    font-style: italic;
+}

@@ -10,6 +10,8 @@ import ua.kpi.apeps.model.Employee;
 import ua.kpi.apeps.model.EmployeeShiftRecord;
 import ua.kpi.apeps.repository.Repository;
 
+import static ua.kpi.apeps.repository.jdbc.JdbcTransactionTemplate.singleJdbcTransaction;
+
 @RestController
 @RequestMapping("employees/")
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -26,12 +28,12 @@ public class EmployeeController {
 
     @GetMapping("{id}")
     public Employee getById(@PathVariable("id") Integer id) {
-        return employeeRepository.getById(id);
+        return singleJdbcTransaction(() -> employeeRepository.getById(id));
     }
 
     @GetMapping("shifts")
     public Iterable<EmployeeShiftRecord> getAllShiftRecords() {
-        return employeeShiftRecordRepository.getAll();
+        return singleJdbcTransaction(() -> employeeShiftRecordRepository.getAll());
     }
 
 }

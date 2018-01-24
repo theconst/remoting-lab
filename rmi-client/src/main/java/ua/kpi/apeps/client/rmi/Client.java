@@ -5,7 +5,7 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
-import ua.kpi.apeps.model.EmployeeShiftRecord;
+import ua.kpi.apeps.repository.RemoteEmployeeBatchUpdateService;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -13,8 +13,6 @@ import java.rmi.registry.Registry;
 import java.util.Objects;
 
 import static java.rmi.registry.LocateRegistry.getRegistry;
-import static ua.kpi.apeps.repository.ServiceRegistry.EMPLOYEE_SHIFT_RECORD_REPOSITORY;
-import static ua.kpi.apeps.repository.ServiceRegistry.TRANSACTION;
 
 @Slf4j
 public class Client {
@@ -49,24 +47,14 @@ public class Client {
         //execute update of the remote repository
         log.info("Started importing of journal {}", journal);
         Registry registry = getRegistry(host, port);
-        UpdateRepositoryTask.of(
-                journal,
-                getRepository(registry),
-                getTransactionTemplate(registry)
-        ).call();
+        UpdateRepositoryTask.of(journal, getRemoteBatchService(registry)).call();
         log.info("Finished importing of journal");
     }
 
     @SuppressWarnings("unchecked") //getting object known by a contract
-    private static RemoteTransactionTemplateAdapter<Void> getTransactionTemplate(Registry registry)
+    private static RemoteEmployeeBatchUpdateService getRemoteBatchService(Registry registry)
             throws RemoteException, NotBoundException {
-        return (RemoteTransactionTemplateAdapter<Void>) registry.lookup(TRANSACTION);
-    }
-
-    @SuppressWarnings("unchecked") //getting object known by a contract
-    private static RemoteRepository<EmployeeShiftRecord, Integer>
-    getRepository(Registry registry) throws RemoteException, NotBoundException {
-        return (RemoteRepository<EmployeeShiftRecord, Integer>) registry.lookup(EMPLOYEE_SHIFT_RECORD_REPOSITORY);
+        return (RemoteEmployeeBatchUpdateService) registry.lookup(RemoteEmployeeBatchUpdateService.NAME);
     }
 
     private static void setSecurityManager() {

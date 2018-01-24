@@ -6,8 +6,6 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.Options;
 import ua.kpi.apeps.model.EmployeeShiftRecord;
-import ua.kpi.apeps.repository.RemoteRepository;
-import ua.kpi.apeps.repository.RemoteTransactionTemplateAdapter;
 
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;

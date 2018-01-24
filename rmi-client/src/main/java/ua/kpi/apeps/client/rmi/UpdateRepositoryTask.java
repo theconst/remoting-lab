@@ -2,8 +2,6 @@ package ua.kpi.apeps.client.rmi;
 
 import lombok.AllArgsConstructor;
 import ua.kpi.apeps.model.EmployeeShiftRecord;
-import ua.kpi.apeps.repository.RemoteRepository;
-import ua.kpi.apeps.repository.RemoteTransactionTemplate;
 
 import java.util.Collection;
 import java.util.concurrent.Callable;
